@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+*.ioreg
+*.spx
+*.systemprofiler
+*.zip
+*.pkg
+*.png
+*.jpg
+*.jpeg
+*.heic
