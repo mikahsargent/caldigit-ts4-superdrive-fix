@@ -46,7 +46,7 @@ System Information also listed the Apple SuperDrive under **Disc Burning** after
 
 ### Reboot follow-up
 
-After the next Mac reboot, the same driver still appeared as **Loaded: Yes**, but the TS4 port limit was back to 500 mA. The SuperDrive again had a failed 1,100 mA request and only 500 mA allocated. Running the two `kmutil load` commands again **without disconnecting the already enumerated dock** did not change those live power values. The host-cable reconnect remains necessary in the recovery sequence observed so far. We have not established why the driver personalities fail to apply at startup.
+After the next Mac reboot, the same driver still appeared as **Loaded: Yes**, but the TS4 port limit was back to 500 mA. The SuperDrive again had a failed 1,100 mA request and only 500 mA allocated. Running the two `kmutil load` commands again **without disconnecting the already enumerated dock** did not change those live power values. After reconnecting the host cable, the relevant TS4 hubs again reported 6,000 mA supplies and 1,500 mA port limits; the SuperDrive received 1,100 mA with no failed-power flag. We have not established why the driver personalities fail to apply at startup.
 
 The verified setup was an Apple silicon Mac Studio running macOS 27.0, a TS4 with firmware 45.1, and CalDigit’s USB Hub Support Driver installer version 4.2. We omit serial numbers, dock identifiers, account information, device logs, and screenshots to protect privacy.
 
@@ -62,7 +62,7 @@ The official driver’s TS4 personalities specify a 6,000 mA hub supply and 1,50
 - Try a different direct TS4 USB-A port, then repeat the direct-to-Mac control test.
 - If the commands report an error, keep the exact error text for [CalDigit Support](https://www.caldigit.com/support/). Avoid changing macOS security settings beyond the official driver installation procedure.
 - If direct-to-Mac works and the TS4 still fails, include the dock model, macOS version, driver version, firmware version, and **power values without serial numbers** in a support request. If no better solution is available, using the Mac’s USB-A port is the known working fallback in this case.
-- After a restart, the warning did return in our case. The two `kmutil` commands followed by a host-cable reconnect are the manual recovery sequence observed before reboot; repeat it if needed. Do not assume the commands alone change the power values of an already connected dock. A persistent solution remains unverified, so this guide does not recommend adding a login or boot automation yet.
+- After a restart, the warning did return in our case. Repeating the two `kmutil` commands **and** a host-cable reconnect restored the power allocation. The commands alone did not change the already connected dock. A persistent solution remains unverified, so this guide does not recommend adding a login or boot automation yet.
 
 ## Related reports and sources
 
