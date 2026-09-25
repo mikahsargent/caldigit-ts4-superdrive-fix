@@ -6,6 +6,8 @@ An Apple USB SuperDrive connected directly to a CalDigit TS4 USB-A port can show
 
 In one verified case, explicitly loading the TS4 personalities of CalDigit’s installed driver and then reconnecting the dock’s **host Thunderbolt cable** resolved the power request. **The warning returned after the next Mac reboot**, so the steps below are a temporary recovery, not a persistent fix. This is a troubleshooting case report, not a confirmed fix for every Mac, macOS release, or dock.
 
+We have also [tested a targeted software reset of the TS4 USB 2 hub](experimental-software-reset.md). It re-enumerated the hub and its attached devices without unplugging the dock. **It has not yet been tested against the power failure immediately after a reboot**, so the host-cable recovery below remains the verified remedy for that state.
+
 ## Check these first
 
 1. Confirm the SuperDrive is plugged **directly into a TS4 USB-A port**, without an intermediate hub or adapter.
