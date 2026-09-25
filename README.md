@@ -4,7 +4,7 @@ An Apple USB SuperDrive connected directly to a CalDigit TS4 USB-A port can show
 
 > Accessory Needs Power — MacBook Air SuperDrive. For additional power, connect to a USB port on this Mac.
 
-In one verified case, explicitly loading the TS4 personalities of CalDigit’s installed driver and then reconnecting the dock’s **host Thunderbolt cable** resolved the power request. This is a troubleshooting case report, not a confirmed fix for every Mac, macOS release, or dock.
+In one verified case, explicitly loading the TS4 personalities of CalDigit’s installed driver and then reconnecting the dock’s **host Thunderbolt cable** resolved the power request. **The warning returned after the next Mac reboot**, so the steps below are a temporary recovery, not a persistent fix. This is a troubleshooting case report, not a confirmed fix for every Mac, macOS release, or dock.
 
 ## Check these first
 
@@ -42,7 +42,11 @@ These `kmutil` commands are specific to the TS4 driver personalities found in th
 | `kUSBFailedRequestedPower` | 1,100 mA | Absent |
 | macOS power alert | Present | Gone |
 
-System Information also listed the Apple SuperDrive under **Disc Burning** after the fix. We did **not** test reading or burning a disc, and we have **not** checked whether the fix survives a Mac restart.
+System Information also listed the Apple SuperDrive under **Disc Burning** after the fix. We did **not** test reading or burning a disc.
+
+### Reboot follow-up
+
+After the next Mac reboot, the same driver still appeared as **Loaded: Yes**, but the TS4 port limit was back to 500 mA. The SuperDrive again had a failed 1,100 mA request and only 500 mA allocated. Running the two `kmutil load` commands again **without disconnecting the already enumerated dock** did not change those live power values. The host-cable reconnect remains necessary in the recovery sequence observed so far. We have not established why the driver personalities fail to apply at startup.
 
 The verified setup was an Apple silicon Mac Studio running macOS 27.0, a TS4 with firmware 45.1, and CalDigit’s USB Hub Support Driver installer version 4.2. We omit serial numbers, dock identifiers, account information, device logs, and screenshots to protect privacy.
 
@@ -58,7 +62,7 @@ The official driver’s TS4 personalities specify a 6,000 mA hub supply and 1,50
 - Try a different direct TS4 USB-A port, then repeat the direct-to-Mac control test.
 - If the commands report an error, keep the exact error text for [CalDigit Support](https://www.caldigit.com/support/). Avoid changing macOS security settings beyond the official driver installation procedure.
 - If direct-to-Mac works and the TS4 still fails, include the dock model, macOS version, driver version, firmware version, and **power values without serial numbers** in a support request. If no better solution is available, using the Mac’s USB-A port is the known working fallback in this case.
-- If the warning returns after a restart, the two `kmutil` commands followed by a host-cable reconnect are a candidate manual recovery. Startup persistence remains untested; this guide does not recommend adding a login or boot automation yet.
+- After a restart, the warning did return in our case. The two `kmutil` commands followed by a host-cable reconnect are the manual recovery sequence observed before reboot; repeat it if needed. Do not assume the commands alone change the power values of an already connected dock. A persistent solution remains unverified, so this guide does not recommend adding a login or boot automation yet.
 
 ## Related reports and sources
 
