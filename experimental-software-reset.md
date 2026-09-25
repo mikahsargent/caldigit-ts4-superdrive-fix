@@ -2,7 +2,9 @@
 
 This is a manual, on-demand workaround. A long-press Stream Deck button calls a Keyboard Maestro macro, which asks for a macOS administrator password, loads CalDigit's already-installed TS4 driver personalities, and resets the **inner TS4 USB 2 hub containing the Apple USB SuperDrive**. The reset briefly disconnects every USB device on that hub. It does not reset the entire TS4 Thunderbolt connection.
 
-**Test status:** On macOS 27.0 with TS4 firmware 45.1, the button caused the selected hub and SuperDrive to receive new I/O Registry identities. The SuperDrive then showed a 1,100 mA allocation with no `kUSBFailedRequestedPower` flag. A camera and UPS on the same hub reappeared. This test started while the drive was already receiving full power; **we have not yet established whether this software reset restores power after the reboot failure** described in the [main case report](README.md#reboot-follow-up). We have not tested disc reading or burning.
+**Test status:** On macOS 27.0 with TS4 firmware 45.1, an initial button press caused the selected hub and SuperDrive to receive new I/O Registry identities. The SuperDrive then showed a 1,100 mA allocation with no `kUSBFailedRequestedPower` flag. A camera and UPS on the same hub reappeared. This initial test started while the drive was already receiving full power.
+
+**Reboot follow-up, September 24, 2026:** After a fresh Mac reboot, the user pressed the button again and reported that it worked. The macro recorded a second run after boot. A subsequent macOS readback showed a 6,000 mA supply and 1,500 mA port limit on the relevant inner TS4 hub; the SuperDrive had 1,100 mA allocated with no failed-power flag. We did **not** capture the USB power values immediately before this second press, so this observation combines the user's report of recovery with a verified post-press power state. It supports this on-demand workaround on this one Mac, not a general fix or an explanation for the startup failure. We have not tested disc reading or burning.
 
 ## How it works
 
@@ -39,4 +41,4 @@ fi
 
 Assign that macro to a Stream Deck **Key Logic** hold action using KM Link. Leave the single- and double-press actions empty to make accidental activation less likely. The selected USB hub and its children will briefly disconnect when the hold action runs. The success notification means re-enumeration and the *power allocation check* passed; it does not prove a disc can be read or burned.
 
-If you test this after a reboot where the power warning has returned, please report whether the warning disappears and include only the power values and error text. Remove serial numbers, usernames, device UIDs, and full system reports before posting.
+If you test this on another setup after a reboot where the power warning has returned, please report whether the warning disappears and include only the power values and error text. Remove serial numbers, usernames, device UIDs, and full system reports before posting.
